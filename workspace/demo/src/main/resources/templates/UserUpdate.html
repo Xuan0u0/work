@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>忘記密碼</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<style>
+		.menu-space {
+			width: 20px;
+			/* 調整適當的間距寬度 */
+			display: inline-block;
+		}
+	</style>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+	<ul class="navbar-nav ml-auto">
+		<li class="nav-item">
+			<a class="nav-link" href="index.html">首頁</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="UserLogin.html">會員登入</a>
+		</li>
+	</ul>
+</nav>
+
+	<div class="h-panel panel-center">
+		<form id="upassword" class="h-form label-top" align=center>
+			<h3><span class="fr-form-label" style="color:rgb(156,146, 88)">忘記密碼</span></h3>
+			<p><span class="fr-form-label" style="color:rgb(156,146, 88)">請輸入您的會員帳號</span></p>
+			<div class="h-text-box default icon-left">
+				<input class="" type="text" maxlength="6" name="username" id="username" placeholder="會員帳號"
+					autocomplete="off" value=""><br />
+				<!-- 顯示查無此帳號 -->
+				<span id=msg style="color: red"></span><br /> <input Type="submit" value="確定">
+			</div>
+		</form>
+	</div>
+
+		<script>
+			function result(data, status) {
+				//alert(data);
+				if (data !== "無此帳號請重新輸入") {
+					location.href = "/confirmPassword";
+				} else {
+					$("#msg").html(data);
+				}
+
+			}
+			function updatemember(evt) {
+				evt.preventDefault();
+				obj = {};
+				obj.username = $("#username").val();
+				//alert(JSON.stringify(obj));
+				$.ajax({
+					url: "/confirmMember",
+					type: "post",
+					dataType: "html",
+					contentType: "application/x-www-form-urlencoded",
+					data: {
+						"username": obj.username
+					},
+					success: result,
+					error: function (myerror) {
+						console.log(myerror);
+					}
+
+				});
+				return false;
+			}
+			$("#upassword").submit(updatemember);
+		</script>
+
+	</div>
+	</div>
+	</div>
+</body>
+
+</html>

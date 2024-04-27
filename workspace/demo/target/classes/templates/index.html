@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>社群媒體系統</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+    <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+            <a class="nav-link" href="index.html">首頁</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="UserLogin.html">會員登入</a>
+        </li>
+    </ul>
+    <a href="index.html">登出</a>
+</nav>
+<div id="app" class="container mt-5">
+        <!-- 發文表單，使用 v-if 判斷是否已登入 -->
+        <div v-if="isLoggedIn" class="row justify-content-center">
+            <div class="col-md-6">
+                <h3 class="mb-4">新增發文</h3>
+                <form @submit.prevent="addPost">
+                    <div class="form-group">
+                        <textarea class="form-control" v-model="postForm.content" rows="3" placeholder="輸入發文內容" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">發布</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- 發文列表，使用 v-for 顯示每篇發文 -->
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <h3 class="mb-4">發文列表</h3>
+                <div v-for="post in posts" :key="post.id" class="card mb-3">
+                    <div class="card-body">
+                        <p>{{ post.content }}</p>
+                        <small class="text-muted">發布於 {{ post.createdAt }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 留言區域，使用 v-if 判斷是否已登入 -->
+        <div v-if="isLoggedIn" class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <h3 class="mb-4">新增留言</h3>
+                <form @submit.prevent="addComment">
+                    <div class="form-group">
+                        <textarea class="form-control" v-model="commentForm.content" rows="3" placeholder="輸入留言內容" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">留言</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                isLoggedIn: true, // 假設已登入，這裡設置為 true
+                postForm: { content: '' }, // 發文表單
+                commentForm: { content: '' }, // 留言表單
+                posts: [] // 發文列表
+            },
+            methods: {
+                addPost() {
+                    // 處理新增發文邏輯
+                    // 將發文內容提交到後端 API
+                    // 成功後重新加載發文列表 this.loadPosts();
+
+                    // 檢查發文內容是否為空
+                    if (this.postForm.content.trim() === '') {
+                        alert('發文內容不能為空');
+                        return;
+                    }
+
+                    // 模擬提交發文內容到後端 API，這裡使用 setTimeout 模擬異步請求
+                    setTimeout(() => {
+                        // 假設後端 API 接收到發文內容後返回成功訊息
+                        alert('發文成功');
+                        // 清空發文表單
+                        this.postForm.content = '';
+                        // 成功後重新加載發文列表
+                        this.loadPosts();
+                    }, 1000); // 假設請求耗時 1 秒
+                },
+
+                addComment() {
+                    // 處理新增留言邏輯
+                    // 將留言內容提交到後端 API
+                    // 成功後重新加載發文列表 this.loadPosts();
+
+                    // 檢查留言內容是否為空
+                    if (this.commentForm.content.trim() === '') {
+                        alert('留言內容不能為空');
+                        return;
+                    }
+
+                    // 模擬提交留言內容到後端 API，這裡使用 setTimeout 模擬異步請求
+                    setTimeout(() => {
+                        // 假設後端 API 接收到留言內容後返回成功訊息
+                        alert('留言成功');
+                        // 清空留言表單
+                        this.commentForm.content = '';
+                        // 成功後重新加載發文列表
+                        this.loadPosts();
+                    }, 1000); // 假設請求耗時 1 秒
+                },
+
+                loadPosts() {
+                    // 加載發文列表的邏輯
+                    // 從後端 API 獲取發文列表資料並更新 this.posts
+
+                    // 模擬從後端 API 獲取發文列表資料，這裡使用 setTimeout 模擬異步請求
+                    setTimeout(() => {
+                        // 假設從後端 API 獲取到的發文列表資料是 postsData
+                        const postsData = [
+                            { id: 1, content: '內容1', createdAt: '2024-04-28' },
+                            { id: 2, content: '內容2', createdAt: '2024-04-27' }
+                        ];
+                        // 更新 this.posts
+                        this.posts = postsData;
+                    }, 1000); // 假設請求耗時 1 秒
+                },
+
+            },
+            created() {
+                // 在 Vue 實例被創建時加載發文列表
+                this.loadPosts();
+            }
+        });
+    </script>
+</body>

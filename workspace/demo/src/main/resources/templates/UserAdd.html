@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>加入會員</title>
+	<link rel="stylesheet"
+		  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<script
+			src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script
+			src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+</head>
+
+<body>
+<nav class="navbar navbar-expand-sm bg-light navbar-light">
+	<ul class="navbar-nav ml-auto">
+		<li class="nav-item">
+			<a class="nav-link" href="index.html">首頁</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" href="UserLogin.html">會員登入</a>
+		</li>
+	</ul>
+</nav>
+
+<div class="h-panel panel-center">
+	<form id="addm" align="center">
+		<h1 style="color: #D09C40">註冊</h1>
+		<h3 style="color: #D09C40">使用者名稱</h3>
+		<input type="text" maxlength="20" name="username" id="username" placeholder="使用者名稱" autocomplete="off" value=""><br />
+
+		<h3 style="color: #D09C40">使用者密碼</h3>
+		<input type="text" maxlength="20" name="password" id="password" placeholder="使用者密碼" autocomplete="off" value="">
+
+		<h3 style="color: #D09C40">電子信箱</h3>
+		<input type="text" name="email" id="email" placeholder="電子信箱" autocomplete="off" value="">
+
+		<h3 style="color: #D09C40">自我介紹</h3>
+		<input type="text" maxlength="200" name="biography" id="biography" placeholder="自我介紹" autocomplete="off" value=""></br> </br>
+
+		<!-- 顯示查無此帳號 -->
+		<span id="msg" style="color: red"></span><br />
+		<input type="submit" value="註冊">
+	</form>
+</div>
+
+<script>
+	function result(data, status) {
+		if (data !== "帳號重複請重新註冊") {
+			alert("註冊成功");
+			location.href = "UserLogin.html";
+		} else {
+			$("#msg").html(data);
+		}
+	}
+
+	function memberadd(evt) {
+		evt.preventDefault();
+		obj = {};
+		obj.username = $("#username").val();
+		obj.password = $("#password").val();
+		obj.email = $("#email").val();
+		obj.biography = $("#biography").val();
+
+		if (obj.username === "" || obj.password === ""
+				|| obj.email === "" || obj.biography === "") {
+			alert("請填寫所有資料");
+			return false; // 阻止提交
+		}
+
+		$.ajax({
+			url: "/AddUser",
+			type: "post",
+			dataType: "html",
+			data: $("#addm").serialize(), // 使用表單序列化的方式提交數據
+			success: result,
+			error: function(myerror) {
+				console.log(myerror);
+			}
+		});
+		return false;
+	}
+	$("#addm").submit(memberadd);
+</script>
+</body>
+
+</html>

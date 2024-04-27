@@ -1,0 +1,84 @@
+ 	<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<title>會員登錄</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+</head>
+
+<body>
+	<div id="app">
+		<nav class="navbar navbar-expand-sm bg-light navbar-light">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item">
+					<a class="nav-link" href="index.html">首頁</a>
+				</li>
+			</ul>
+		</nav>
+
+		<div class="container">
+			<form @submit.prevent="submitForm">
+				<div class="h-panel panel-left" align=center>
+					<h4><span class="fr-form-label" style="color:rgb(156,146, 88)">使用者帳號</span></h4>
+					<span class="fr-icon required fr-label-note" aria-hidden="true"></span>
+					<input type="text" v-model="formData.username" maxlength="6" required placeholder="使用者帳號">
+					<div class="fr-text-annotation caution mt-s"></div><br />
+
+					<h4><span class="fr-form-label" style="color:rgb(156,146, 88)">使用者密碼</span></h4>
+					<input type="password" v-model="formData.password" maxlength="6" required placeholder="使用者密碼">
+					<br /><br />
+
+					<a href="UserUpdate.html">
+						<h6 style="color:rgb(156,146,88)">忘記密碼</h6>
+					</a>
+					<input type="submit" value="登入"><br><br>
+					<h6 v-if="message" style="color:red">{{ message }}</h6>
+				</div>
+			</form>
+		</div>
+
+		<div class="h-panel panel-right" align=center>
+			<h4 style="color:rgb(156,146, 88)">歡迎加入會員</h4>
+			<a href="UserAdd.html">
+				<button type="button" class="h-btn black" style="width:8%;heigth:30px">註冊</button>
+			</a>
+		</div>
+	</div>
+
+	<script>
+		new Vue({
+			el: '#app',
+			data: {
+				formData: {
+					username: '',
+					password: ''
+				},
+				message: ''
+			},
+			methods: {
+				submitForm() {
+					if (!this.formData.username || !this.formData.password) {
+						this.message = '請填寫所有資料';
+						return;
+					}
+
+					// 模擬 AJAX 請求
+					setTimeout(() => {
+						// 假設這裡是後端返回的訊息
+						const response = '帳號密碼錯誤請重新輸入,若無帳號請先註冊'; // 或者 '登入成功'
+						if (response !== '帳號密碼錯誤請重新輸入,若無帳號請先註冊') {
+							window.location.href = 'index.html'; // 跳轉到首頁或其他頁面
+						} else {
+							this.message = response;
+						}
+					});
+				}
+			}
+		});
+	</script>
+
+</body>
+
+</html>
